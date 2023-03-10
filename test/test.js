@@ -131,3 +131,65 @@ testCharacterErrors(
     }).toThrowError(expected);
   },
 );
+
+test('test for method levelUp of class Character', () => {
+  const result = new Character('Matvey', 'Daemon');
+
+  result.levelUp();
+
+  expect(result).toEqual({
+    name: 'Matvey',
+    type: 'Daemon',
+    health: 100,
+    level: 2,
+    attack: 12,
+    defence: 12,
+  });
+});
+
+test('test of Error by the method levelUp in the class Character', () => {
+  expect(() => {
+    const result = new Character('Matvey', 'Daemon');
+    result.health = 0;
+    result.levelUp();
+  }).toThrowError('Нельзя повысить левел умершего');
+});
+
+const damageList = [
+  [
+    'Damage is 50 points',
+    50,
+    {
+      name: 'Matvey',
+      type: 'Daemon',
+      health: 55,
+      level: 1,
+      attack: 10,
+      defence: 10,
+    },
+  ],
+  [
+    'Damage is 500 points',
+    500,
+    {
+      name: 'Matvey',
+      type: 'Daemon',
+      health: 0,
+      level: 1,
+      attack: 10,
+      defence: 10,
+    },
+  ],
+];
+
+const damageTestHandler = test.each(damageList);
+
+damageTestHandler(
+  'Test %q in class Character',
+  (checkName, points, expected) => {
+    const result = new Character('Matvey', 'Daemon');
+    console.log(checkName);
+    result.damage(points);
+    expect(result).toEqual(expected);
+  },
+);
